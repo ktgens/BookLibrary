@@ -158,7 +158,8 @@ void Library::loadFromFile()
     bool parsingUsers = false;
 
     std::string title, author, isbn, borrowedBy, name, userId, borrowedStr;
-    int year = 0, maxBooks = 3;
+    int year = 0;
+    int maxBooks = 3;
     bool isAvailable = true;
 
     while (std::getline(file, line)) 
@@ -196,6 +197,31 @@ void Library::loadFromFile()
             if (line.find("Name: ") == 0) name = line.substr(6);
             else if (line.find("UserID: ") == 0) userId = line.substr(8);
             else if (line.find("BorrowedBooks: ") == 0) borrowedStr = line.substr(15);
+            else if (line.find("MaxBooks: ") == 0)
+            {
+                maxBooks = std::stoi(line.substr(10));
+
+                User u(name, userId, maxBooks);
+
+                std::string current;
+                for (size_t i = 0; i <= borrowedStr.size(); ++i)
+                {
+                    if (i == borrowedStr.size() || borrowedStr[i] == '|')
+                    {
+                        if (!current.empty())
+                        {
+                            try { u.addBook(current); } catch (...) {}
+                            current.clear();
+                        }
+                    }
+                    else
+                    {
+                        current += borrowedStr[i];
+                    }
+                }
+
+                users.push_back(u);
+            }
         }
     }
     file.close();
