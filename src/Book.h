@@ -3,7 +3,8 @@
 #include <string>
 #include <iostream>
 
-class Book {
+class Book 
+{
 private:
     std::string title;
     std::string author;
@@ -15,12 +16,12 @@ private:
 public:
     Book(std::string title, std::string author, int y, std::string isbn);
 
-    std::string getTitle();
-    std::string getAuthor();
-    int getYear();
-    std::string getISBN();
-    bool getAvailable();
-    std::string getBorrowedBy();
+    std::string getTitle() const;
+    std::string getAuthor() const;
+    int getYear() const;
+    std::string getISBN() const;
+    bool getAvailable() const;
+    std::string getBorrowedBy() const;
     void borrowBook(const std::string& userName);
     void returnBook();
     void displayInfo();

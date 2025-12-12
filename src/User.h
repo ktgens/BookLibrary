@@ -5,7 +5,8 @@
 #include <iostream>
 #include <algorithm>
 
-class User {
+class User 
+{
 private:
     std::string name;
     std::string userId;
@@ -15,10 +16,10 @@ private:
 public:
     User(std::string name, std::string id, int maxBooks);
 
-    std::string getName();
-    std::string getUserId();
-    std::vector<std::string> getBorrowedBooks();
-    int getMaxBooks();
+    std::string getName() const;
+    std::string getUserId() const;
+    std::vector<std::string> getBorrowedBooks() const;
+    int getMaxBooks() const;
     bool canBorrowMore();
     void addBook(const std::string& isbn);
     void removeBook(const std::string& isbn);
