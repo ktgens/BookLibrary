@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "Library.h"
 
 const int MAX_BOOKS = 3;
