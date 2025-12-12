@@ -88,7 +88,8 @@ void Library::displayAllBooks() const
         std::cout << "Library is empty" << std::endl;
         return;
     }
-    for (const Book& book : books) {
+    for (const Book& book : books) 
+    {
         book.displayInfo();
     }
 }
@@ -100,17 +101,102 @@ void Library::displayAllUsers() const
       std::cout << "User list is empty" << std::endl;
       return;  
     } 
-    for (const User& user : users) {
+    for (const User& user : users) 
+    {
         user.displayProfile();
     }
 }
 
 void Library::saveToFile()
 {
+    std::ofstream file(dataFile);
+    if (!file.is_open()) 
+    {
+        throw std::runtime_error("Error:opening file for saving");
+        return;
+    }
+
+    for (const Book& b : books) 
+    {
+        file << "BOOK" << std::endl;
+        file << "Title: " << b.getTitle() << std::endl;
+        file << "Author: " << b.getAuthor() << std::endl;
+        file << "Year: " << b.getYear() << std::endl;
+        file << "ISBN: " << b.getISBN() << std::endl;
+        file << "Available: " << (b.getAvailable() ? "yes" : "no") << std::endl;
+        file << "BorrowedBy: " << b.getBorrowedBy() << std::endl;
+    }
+
+    file << "---USERS---\n\n";
+
+    for (const User& u : users) 
+    {
+        file << "USER" << std::endl;
+        file << "Name: " << u.getName() << std::endl;
+        file << "UserID: " << u.getUserId() << std::endl;
+        file << "BorrowedBooks: ";
+        std::vector<std::string> books = u.getBorrowedBooks();
+        for (size_t i = 0; i < books.size(); ++i) 
+        {
+            file << books[i];
+        }
+        file << std::endl;
+        file << "MaxBooks: " << u.getMaxBooks() << std::endl;
+    }
+    file.close();
+    std::cout << "Data saved to " << dataFile << std::endl;
+
 
 }
 
 void Library::loadFromFile()
 {
+    std::ifstream file(dataFile);
+    if (!file.is_open()) return;
 
+    std::string line;
+    bool parsingUsers = false;
+
+    std::string title, author, isbn, borrowedBy, name, userId, borrowedStr;
+    int year = 0, maxBooks = 3;
+    bool isAvailable = true;
+
+    while (std::getline(file, line)) 
+    {
+        if (line == "---USERS---")
+        {
+            parsingUsers = true;
+            continue;
+        }
+        if (line.empty()) continue;
+
+        if (!parsingUsers)
+        {
+            if (line == "BOOK") continue;
+
+            if (line.find("Title: ") == 0) title = line.substr(7);
+            else if (line.find("Author: ") == 0) author = line.substr(8);
+            else if (line.find("Year: ") == 0) year = std::stoi(line.substr(6));
+            else if (line.find("ISBN: ") == 0) isbn = line.substr(6);
+            else if (line.find("Available: ") == 0) isAvailable = (line.substr(11) == "yes");
+            else if (line.find("BorrowedBy: ") == 0)
+            {
+                borrowedBy = line.substr(12);
+                try
+                {
+                    Book b(title, author, year, isbn);
+                    b.setAvailability(isAvailable);
+                    b.setBorrowedBy(borrowedBy);
+                    books.push_back(b);
+                } catch (...) { }
+            }
+        } else 
+        {
+            if (line == "USER") continue;
+            if (line.find("Name: ") == 0) name = line.substr(6);
+            else if (line.find("UserID: ") == 0) userId = line.substr(8);
+            else if (line.find("BorrowedBooks: ") == 0) borrowedStr = line.substr(15);
+        }
+    }
+    file.close();
 }
