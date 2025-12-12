@@ -23,7 +23,7 @@ public:
     bool canBorrowMore();
     void addBook(const std::string& isbn);
     void removeBook(const std::string& isbn);
-    void displayProfile();
+    void displayProfile() const;
 };
 
 #endif

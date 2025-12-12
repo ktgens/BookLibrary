@@ -16,12 +16,12 @@ Book::Book(std::string title, std::string author, int year, std::string isbn) : 
 
 }
 
-std::string Book::getTitle() { return title; }
-std::string Book::getAuthor() { return author; }
-int Book::getYear() { return year; }
-std::string Book::getISBN() { return isbn; }
-bool Book::getAvailable() { return isAvailable; }
-std::string Book::getBorrowedBy() { return borrowedBy; }
+std::string Book::getTitle() const { return title; }
+std::string Book::getAuthor() const{ return author; }
+int Book::getYear() const{ return year; }
+std::string Book::getISBN() const { return isbn; }
+bool Book::getAvailable() const{ return isAvailable; }
+std::string Book::getBorrowedBy() const { return borrowedBy; }
 
 void Book::borrowBook(const std::string& userName) 
 {
@@ -38,7 +38,7 @@ void Book::returnBook()
     borrowedBy = "";
 }
 
-void Book::displayInfo() 
+void Book::displayInfo() const
 {
     std::cout << "Title: " << title << " | Author: " << author << " | Year: " << year << " | ISBN: " << isbn  << " | Available: " << (isAvailable ? "Yes" : "No");
 

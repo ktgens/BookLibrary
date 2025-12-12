@@ -24,7 +24,7 @@ public:
     std::string getBorrowedBy() const;
     void borrowBook(const std::string& userName);
     void returnBook();
-    void displayInfo();
+    void displayInfo() const;
     void setAvailability(bool avail);
     void setBorrowedBy(const std::string& user);
 };

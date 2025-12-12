@@ -4,10 +4,10 @@
 User::User(std::string name, std::string id, int maxBooks) 
     : name(name), userId(id), maxBooksAllowed(maxBooks) {}
 
-std::string User::getName() { return name; }
-std::string User::getUserId() { return userId; }
-std::vector<std::string> User::getBorrowedBooks() { return borrowedBooks; }
-int User::getMaxBooks() { return maxBooksAllowed; }
+std::string User::getName() const { return name; }
+std::string User::getUserId() const{ return userId; }
+std::vector<std::string> User::getBorrowedBooks() const { return borrowedBooks; }
+int User::getMaxBooks() const { return maxBooksAllowed; }
 
 bool User::canBorrowMore() { return borrowedBooks.size() < maxBooksAllowed;}
 
@@ -29,7 +29,7 @@ void User::removeBook(const std::string& isbn)
     }
 }
 
-void User::displayProfile() 
+void User::displayProfile() const
 {
     std::cout << "User:" << name << " (ID: " << userId << ")\n";
     std::cout << "Borrowed Books:" << borrowedBooks.size() << maxBooksAllowed << std::endl;
