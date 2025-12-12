@@ -141,7 +141,7 @@ int main()
 
             case 10: 
             {
-                break;
+                return 0;
             }
 
             default: 
