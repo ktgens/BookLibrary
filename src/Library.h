@@ -7,7 +7,8 @@
 #include "Book.h"
 #include "User.h"
 
-class Library {
+class Library 
+{
 private:
     std::vector<Book> books;
     std::vector<User> users;
